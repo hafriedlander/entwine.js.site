@@ -1,0 +1,66 @@
+.niji_code {
+    font-family: 'monaco', courier, monospace;
+    font-size: 11.5px;
+    overflow: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #fff;
+    color: #000;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border: 1px solid #aaa;
+    white-space: pre-wrap;
+}
+
+.niji_code em {
+    font-style: italic;
+}
+
+.niji_html {
+    color: #1222F2;
+}
+
+.niji_keyword, .niji_define {
+    color: #1222F2;
+}
+
+.niji_variable {
+    color: #398394;
+}
+
+.niji_int {
+    color: #0D1DCD;
+}
+
+.niji_constant {
+    color: #C51C1C;
+}
+
+.niji_comment {
+    color: #0066FF;
+}
+
+.niji_class {
+    color: #585BF4;
+}
+
+.niji_function {
+    color: #0A169F;
+}
+
+.niji_string {
+    color: #316B17;
+}
+
+.niji_default {
+    color: #000;
+}
+
+.niji_tag {
+    color: #7F90AA;
+}
+
+.niji_method {
+    color: #0A169F;
+}
