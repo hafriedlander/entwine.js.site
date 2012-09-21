@@ -1,0 +1,170 @@
+Type: Page
+Title: Event Handling
+MenuTitle: Events
+Content: |
+  <section class="with-aside">
+
+  Not all methods that you bind to a selector with Entwine need to be called explicitly. You can attach methods
+  that are called when an event of some sort occurs.
+
+  The most basic events are the standard DOM events - click, mouseenter, mouseleave, change, focusin, focusout, etc
+
+  By binding an entwine method with a name starting with ‘on’, then instead of defining that function it will be
+  bound to an event of that name. When an event is triggered on an element that matches that selector, or it's children,
+  the method will be called with `this` pointing to that matching element.
+
+  It's important to note that these methods are just like any other Entwine method - the binding will be live (that is,
+  will apply to any matching element, regardless of when that element is inserted into the DOM), and only the most
+  specific definition will be used.
+
+  <aside>
+
+  #### Edge cases and gotchas
+
+  - onmouseenter and onmouseleave do work, and are simulated on most browsers
+
+  - onfocus and onblur don't bubble in the way Entwine needs. Use onfocusin and onfocusout
+  instead.
+
+  </aside>
+
+  </section>
+
+  ### A basic event binding example
+
+  A fundamental building block of pretty much any web application is attaching behaviour to mouse clicks, so here's
+  an example of doing just that.
+
+  In our imaginary web application we have a UX requirement: Clicking on any `div` will turn it's background blue,
+  except if it has a class of `green`. Clicking on any element with a class of `green` will turn it's text green.
+
+  Here's that implemented:
+
+  ###### Example
+
+  <div class="example">
+
+  ```html
+  <body>
+    <div>Background will turn blue when clicked on</div>
+    <div>Will also have blue background when clicked on</div>
+    <div class='green'>Will have green text when clicked on. Background color will not change</div>
+  </body>
+  ```
+
+  ```javascript
+  $('div').entwine({
+    onclick: function(){ this.css({backgroundColor: 'blue'}); }
+  });
+  $('.green').entwine({
+    onclick: function(){ this.css({color: 'green'}); }
+  });
+  ```
+
+  </div>
+
+  As you can see, just like any other Entwine method
+
+  - Only one method is called per event and element pair, the most specific one with a selector that matches that element
+
+  - Each method is called with `this` being a jQuery object with a single element, which matches that selector
+
+  ### Mutation
+
+  Another kind of event that you can bind to in Entwine are Mutation events. These come in four flavours
+
+  - onadd, when an element is added to the DOM for the first time
+
+  - onremove, when an element is removed from the DOM
+
+  - onmatch, when the most specific entwine selector an element matches changes
+
+  - onunmatch, when this selector used to be the most specific entwine selector an element matches, but it changes away from this
+
+  #### Onadd and Onrem
+
+  With one caveat, onadd and onremove are the two easiest to understand mutation events, and are probably what you want.
+
+  When you bind a method called `onadd` with an Entwine block, any time an element is added to the DOM that matches that
+  block's selector the method is called immediately _after_ the element is added with `this` pointing to that element
+
+  When you bind a method called `onremove` with an Entwine block, any time an element is removed from the DOM that
+  matches that block's selector the method is called immediately _before_ the element is removed with `this` pointing to
+  that element
+
+  ###### Example
+
+  <div class="example">
+
+  ```html
+  <body>
+    <div>This element already exists</div>
+  </body>
+  ```
+
+  ```javascript
+  $('div').entwine({
+    onadd: function(){ console.log('I was added to just after "'+this.prevSibling().text()+'"'); }
+    onremove: function(){ console.log('I was removed from just after "'+this.prevSibling().text()+'"'); }
+  });
+
+  var div = $('<div></div>');
+  div.appendTo(document.body);
+  div.remove();
+  ```
+
+  </div>
+
+  ###### Output
+
+  ```text
+  I was added to just after "This element already exists"
+  I was removed from just after "This element already exists"
+  ```
+
+  The caveat is that these events only occur once each - immediately after an element being added to the DOM, and
+  immediately before being removed.
+
+  In some cases, the attributes of an element may not be finalised when that element is added to the DOM. No modifcation
+  to an element that occurs after the element is added to the DOM is taken into account when finding any Entwine block
+  bound to the event.
+
+  ###### How not to do it
+
+  <div class="example">
+
+  ```html
+  <body>
+    <div>This element already exists</div>
+  </body>
+  ```
+
+  ```javascript
+  $('.someClass').entwine({
+    onadd: function(){ console.log('I was added to just after "'+this.prevSibling().text()+'"'); }
+    onremove: function(){ console.log('I was removed from just after "'+this.prevSibling().text()+'"'); }
+  });
+
+  var div = $('<div></div>');
+  div.appendTo(document.body);
+  div.addClass('someClass');
+  div.remove();
+  ```
+
+  </div>
+
+  ###### Output
+
+  ```text
+  I was removed from just after "This element already exists"
+  ```
+
+
+  In this instance, the onadd method is _not_ called, although the onremove method is. The reason is because
+  when the `div` is added to the DOM it does _not_ match the selector `.someClass` - it has no classes at all.
+
+
+
+
+
+

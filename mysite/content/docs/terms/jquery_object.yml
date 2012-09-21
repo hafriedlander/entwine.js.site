@@ -1,0 +1,19 @@
+Type: Page
+Title: jQuery Object
+MenuTitle: jQuery Object
+Content: |
+  jQuery's core concept is the [jQuery object](http://api.jquery.com/Types/#jQuery). Entwine operates by extending this
+  object, so some understanding of the underlying functionality is needed.
+
+  Each instance of this object has:
+
+    - a set of DOM elements that the instance operates on
+    - a set of methods that perform operations on that set
+
+  There are many ways to create instances of this object & add DOM elements to an instance's set of elements. The most
+  common method is the [`jQuery` or `$` function](http://api.jquery.com/jQuery/), which takes a CSS selector, and returns
+  an instance of the jQuery object containing the set of all elements in the active document which match that CSS selector.
+
+  It's important to note that every method of the jQuery object is expected to work on pretty much any element. If
+  the method only works on form elements, or input elements, or if it needs to do different things depending on the
+  type of element, then that filtering needs to take place inside the method itself.

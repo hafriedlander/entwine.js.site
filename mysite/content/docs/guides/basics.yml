@@ -1,0 +1,177 @@
+Type: Page
+Title: Basics
+MenuTitle: Basics
+Content: |
+  <section class="with-aside">
+
+  ### First intro
+
+  The basic premise of Entwine is to allow adding methods to [jQuery object](docs/terms/jquery_object) instances that only
+  act on the elements that match a CSS selector.
+
+  To define these methods you call the `entwine` function on a jQuery object instance created with the `$` function,
+  passing in a hash which lists the method names and definitions
+
+  For instance, if you wanted to add two methods, `foo` and `bar`, that only operated on divs, then you could do this:
+
+  ```javascript
+  $('div').entwine({
+    foo: function(){ console.log('foo'); },
+    bar: function(){ console.log('bar'); }
+  });
+  ```
+
+  You can then call those methods on any jQuery object instance.
+
+  ```javascript
+  $('#a').foo();
+  ```
+
+  Any elements in the jQuery selection (all elements matching `#a` in this example) that also match the selector
+  used during definition (`div` in this example) will have foo called with that matching element set as this. Any other
+  objects are skipped. The return value will be the return value of foo() for the last matched DOM object in the set.
+
+  <aside>
+
+  #### A brief aside - definition rules
+
+  When defining methods, Entwine ignores the actual elements in the jQuery object. It only uses the selector that was
+  passed to the `$` method. This has two important outcomes:
+
+    - The jQuery object instance that `entwine` is called on must have been directly created with `$` called
+      with a single selector argument, and without a context. These examples will not work
+
+      ```javascript
+      $('div', el).entwine(...)
+      $('div').children().entwine(...)
+      $([elementa, elementb]).entwine(...)
+      $('<div id="a"></div>').entwine(...)
+      ```
+
+    - The elements you're trying to add behaviour to don't have to exist when calling entwine.
+      There's no need to wrap any entwine call inside an onDocumentReady handler.
+
+  </aside>
+
+  </section>
+
+  ### A proper example
+
+  What if you want to provide different behaviour for different elements? Let's say you want to get a label for some elements.
+  Some elements will have the label as the text body of the element. Others will have the label in an attribute.
+
+  In this example we have a (very basic) html fragment consisting of three divs - each div with a label marked with a
+  class to indicate the source of the label.  We then define two different Entwined methods. Notice that they have the same
+  method name, but are associated with different selectors.
+
+  ###### Setup
+
+  <div class="example">
+
+  ```html
+  <body>
+    <div class="internal_text">Internal text</div>
+    <div class="attribute_text" rel="Attribute text"></div>
+    <div>Nonsense</div>
+  </body>
+  ```
+
+  ```javascript
+  $('.internal_text').entwine({
+    foo: function(){ console.log(this.text()); }
+  });
+
+  $('.attribute_text').entwine({
+    foo: function(){ console.log(this.attr('rel')); }
+  });
+  ```
+
+  </div>
+
+  ###### Use
+
+  <div class="example">
+
+  ```javascript
+  $('div').foo();
+  ```
+
+  ```text
+  Internal text
+  Attribute text
+  ```
+
+  </div>
+
+  We then select all three divs as a jQuery set, and call the Entwined function we defined before on that set. Each element
+  in the jQuery set is checked against the selector associated with each function. If it matches, the function is called with
+  `this` set to a that element.
+
+  In this case:
+
+  1. The first div matches the first selector, so the first method is run on it, outputting it's content.
+  1. The second div matches the second selector, so the second function is run on it, outputting it's `rel` attribute
+  1. The third div doesn't match any selector, and so is ignored.
+
+  ### Selector specifity
+
+  In the above example we provided two different `foo` methods. In that particular DOM no element matched both selector
+  rules, so there was never a situation where methods might clash.
+
+  But what happens if two (or more) selectors do match - for instance, if a DIV element had both the internal_text _and_
+  attribute_text classes in the example above?
+
+  When there are two definitions for a particular method on a particular DOM node, the function with the most _specific_
+  selector is used. _Specificity_ is calculated [as defined by the CSS 3 spec](http://www.w3.org/TR/css3-selectors/#specificity)
+  and so should be inately understood by anyone who has done much css based styling.
+
+  In short any selector with an `#id` is more specific than a selector with a `.class` or `[attr]` which is more specific
+  than a selector that's just a `tag`. Within one of those groups, more of each selector type is more specific than less.
+
+  If two selectors have the same specifity, the one that was defined last wins
+
+  ### A specific example
+
+  As an extension of the above example, lets say that the default behaviour should be the internal_text version. Perhaps
+  it is the most common version. However in some situations we want to be able to override that behaviour and
+  specify the text in an attribute instead.
+
+  We specify the entwine rules in almost the same way - however we change the selector that the internal_text version
+  uses to be simply "div", which will match any DIV element. The attribute_text entwine block continues to use
+  the .attribute_text selector. Anyone familiar with CSS will know that a class name is more _specific_ than a tag name,
+  so the attribute_text block will override the internal_text block when both selectors match.
+
+  An alternative way to conceptualize this is _subclassing_ applied to behaviour.
+
+  ###### Example
+
+  <div class="example">
+
+  ```html
+  <body>
+    <div>Internal text</div>
+    <div class="attribute_text" rel="Attribute text"></div>
+    <div>Nonsense</div>
+  </body>
+  ```
+
+  ```javascript
+  $('div').entwine({
+    foo: function(){ console.log(this.text()); }
+  });
+  $('.attribute_text').entwine({
+    foo: function(){ console.log(this.attr('rel')); }
+  });
+
+  $('div').foo();
+  ```
+
+  </div>
+
+  ###### Output
+
+  ```text
+  Internal text
+  Attribute text
+  Nonsense
+  ```

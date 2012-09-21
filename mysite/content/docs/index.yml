@@ -1,0 +1,38 @@
+Title: Documentation
+MenuTitle: Docs
+Type: Page
+Content: |
+  Entwine is designed to be powerful and expressive - just like a shotgun.
+
+  Don't shoot yourself in the foot accidentally, learn how to use it.
+  Then shoot yourself in the foot on purpose, if that's what you want.
+
+  ### Tutorial
+
+  For those who learn by doing
+
+  [First steps](tutorial) runs you through building an expand-on-hover widget thing
+
+  ### Documentation
+
+  Narative-style documentation for your reading pleasure
+
+  [The basics](docs/guides/basics) gets you up and writing Entwine powered sites fast
+
+  [Core concepts](docs/guides/core) gives a rundown of the core Entwine concepts in concise, reference-able format
+
+  [Best practises](docs/guides/best-practises) gives recipies and best practises for common patterns in Entwine
+
+  [Performance](docs/guides/performance) gives information on optimisation and performance
+
+  ### Integration
+
+  How to use Entwine's C with your favourite MV library
+
+  TBD
+
+  ### Reference
+
+  The nitty gritty low down. Machine generated for that grinding gears feeling.
+
+  TBD

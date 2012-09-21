@@ -1,0 +1,106 @@
+Type: HomePage
+Title: Entwine - The C in MVC
+Content: |
+  By Hamish Friedlander, with thanks to [SilverStripe](http://www.silverstripe.com/)
+
+  ## What is it ##
+
+  When writing a web site do you lovingly pay attention to your HTML and CSS, giving it semantic structure and
+  meaning? Elements do not stand alone, but get their meaning and purpose from the elements that surround them.
+  Styles are not monolithic blocks, but can be layered on top of each other, each layer simple but the end
+  effect complex and glorious.
+
+  Then you write your Javascript, and as far as it's concered that structure and layering doesn't even exist.
+
+  Entwine attempts to pull that structure through from your HTML into your Javascript, giving
+  your Javascript structure and connection to the rest of your web app, rather than have it stand in
+  isolation.
+
+  At the same time it also allows the sort of layering of Javascript that CSS provides, enabling
+  structured development that automatically provides extensability.
+
+  ## In a problem space not far from home ##
+
+  Lets imagine you have an unordered list, and some items in that list. And you'd like to do something when
+  one of those list items is clicked.
+
+  Some of those list items have a `.warning` class attached, and when they are clicked you want to do something _first_
+  (like pop up an warning), but then do the original behaviour afterwards.
+
+  Some of those list items have a `.readonly` class attached, and when they are clicked you want to do something _else_
+  (like pop up an error message).
+
+  If you wrote that in jQuery you'd probably end up with something that looks like this:
+
+  ```javascript
+  $('document').on('click', 'ul li', function(){
+    if (this.is('.readonly')) error();
+    else {
+      if (this.is('.warning')) warning();
+      clickHandler();
+    }
+  });
+  ```
+
+  Although it's a pretty simple use case the flow through that function is already complex to read. Add a couple
+  more classes and it gets exponentially worse. And forget about adding behaviour via some external source file -
+  your only option is to edit the code of that function directly.
+
+  Entwine turns that into this:
+
+  ```javascript
+  $('ul li').entwine({
+    onclick: function(){ clickHandler(); }
+  });
+  $('ul li.warning').entwine({
+    onclick: function(){ warning(); this._super(); }
+  });
+  $('ul li.readonly').entwine({
+    onclick: function(){ error(); }
+  });
+  ```
+
+  Much easier to read, the flow is much clearer, and adding additional behaviour via external code is a breeze.
+
+  ## The C in MVC ##
+
+  Why pick Entwine, and not some MVC framework, like Backbone.js? We say, why not pick both.
+
+  Entwine works well with many other MVC frameworks, beefing up the Controller part of the framework to
+  be as structured and powerful as the Model and View parts.
+
+  ## Getting Started ##
+
+  * Walk through the [Tutorial](http://hafriedlander.github.com/jquery.entwine/tutorial/)
+  * Watch the [Screencast](http://www.vimeo.com/6353390) (shot during a introductory developer meeting at SilverStripe)
+  * Join the [Google Group](http://groups.google.com/group/jquery-entwine) and let us know what you think, or what other features you'd like to see
+
+  ## Name change ##
+
+  Entwine.js used to be called jQuery Entwine. I'm in the process of changing to stay current with latest fashions :P.
+  Additionally, there is a chance in the future that Entwine will work with other libraries (such as Zepto) or even
+  stand-alone. However currently it still requires jQuery.
+
+  In the mists of time jQuery Entwine used to be called jQuery Concrete. The name was changed to avoid confusion with
+  another product. The concrete function remains as an alias, but all new code should use entwine
+
+  ## License ##
+
+  Copyright (C) 2009-2012 Hamish Friedlander (hamish@silverstripe.com) and SilverStripe Limited (www.silverstripe.com).
+  All rights reserved.
+
+  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+      * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+      * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer
+        in the documentation and/or other materials provided with the distribution.
+      * Neither the name of Hamish Friedlander nor SilverStripe nor the names of its contributors may be used to endorse or promote
+        products derived from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
+  THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
