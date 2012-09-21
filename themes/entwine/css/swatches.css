@@ -1,0 +1,32 @@
+/* line 4, ../sass/swatches.scss */
+body {
+  background: #aaa; }
+
+/* line 6, ../sass/swatches.scss */
+.swatch {
+  float: left;
+  width: 64px;
+  height: 64px;
+  margin-right: 8px; }
+  /* line 9, ../sass/swatches.scss */
+  .swatch.g0 {
+    background: black; }
+  /* line 10, ../sass/swatches.scss */
+  .swatch.g1 {
+    background: #2c2b25; }
+  /* line 11, ../sass/swatches.scss */
+  .swatch.g2 {
+    background: #59574f; }
+  /* line 12, ../sass/swatches.scss */
+  .swatch.g3 {
+    background: #83817c; }
+  /* line 13, ../sass/swatches.scss */
+  .swatch.g4 {
+    background: #b0ada6; }
+  /* line 14, ../sass/swatches.scss */
+  .swatch.g5 {
+    background: #dad8d3; }
+  /* line 15, ../sass/swatches.scss */
+  .swatch.g6 {
+    background: white;
+    clear: right; }

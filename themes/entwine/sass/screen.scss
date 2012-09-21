@@ -1,0 +1,140 @@
+
+// Core variables and mixins
+@import "variables"; // Modify this for custom colors, font-sizes, etc
+
+@import "bootstrap";
+@import "responsive";
+
+html, body { height: 100%; }
+
+.page { background: $columnBackground; min-height: 100%; @include box-shadow(0 0 40px rgba(0,0,0,0.75)); }
+
+// Create column with page gutter - move all content inside a ".page" div, make that handle the padding & gutter
+
+.page { width: 980px; margin: auto; overflow: hidden; }
+
+@media (max-width: 767px) {
+  body { padding: 0; }
+  .page { width: auto; padding: 0 20px; }
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+  .page { width: 764px; padding: 0; }
+}
+
+@media (min-width: 1200px) {
+  .page { width: 1200px; }
+}
+
+
+@media (min-width: 980px) {
+  .page > .container { padding-top: 100px; }
+  .navbar-fixed-top { width: 980px; left: 50%; margin-left: -490px; right: auto; overflow: hidden; padding-bottom: 5px; }
+}
+
+@media (min-width: 1200px) {
+  .navbar-fixed-top { width: 1200px; margin-left: -600px; }
+}
+
+aside {
+	@extend .well;
+	background: rgba(255, 255, 255, 0.8);
+}
+
+@media (min-width: 980px) {
+	section {
+		position: relative;
+
+		&.with-aside {
+			padding-right: 420px;
+		}
+
+		aside {
+			position: absolute; right: 0; top: 0; width: 350px;
+		}
+	}
+}
+
+// Tweak navbar
+
+.navbar .brand { margin-left: 0; width: 360px; background: url(../images/logo_2tone.png) no-repeat 20px center; text-indent: -10000px; }
+
+.navbar { font-family: "QuicksandBook"; font-size: 28px; }
+.navbar .nav > li > a { padding-left: 20px; }
+
+@media (max-width: 767px) {
+  .navbar .nav { clear: left; font-size: 20px; }
+  .navbar .nav > li > a {
+    $navbarHeight: 25px;
+    $elementHeight: 16px;
+    padding: (($navbarHeight - $elementHeight) / 2 - 1) 0 (($navbarHeight - $elementHeight) / 2 + 1) 20px;
+    line-height: 15px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+  .navbar .nav { clear: left; font-size: 24px; }
+  .navbar .nav > li > a {
+    $navbarHeight: 30px;
+    $elementHeight: 26px;
+    padding: (($navbarHeight - $elementHeight) / 2 - 1) 20px (($navbarHeight - $elementHeight) / 2 + 1);
+    line-height: 25px;
+  }
+}
+
+// Tweak pre
+
+pre { padding: 2px 8px; }
+pre > ol { margin-bottom: 0; }
+
+h2, h3, h4, h5, h6 { margin-bottom: 9px; }
+
+h6 {
+  width: 100px; margin: 10px auto; text-align: center;
+
+  background: linear-gradient(top, rgba(0,0,0,0) 45%, #B0ADA6 50%, rgba(0,0,0,0) 51%);
+  background: -moz-linear-gradient(top, rgba(0,0,0,0) 45%, #B0ADA6 50%, rgba(0,0,0,0) 51%);
+  background: -webkit-linear-gradient(top, rgba(0,0,0,0) 45%, #B0ADA6 50%, rgba(0,0,0,0) 51%);
+
+  border-left: 150px solid transparent; border-right: 150px solid transparent;
+
+  box-shadow: inset -999px 0 0 $columnBackground;
+  -moz-box-shadow: inset -999px 0 0 $columnBackground;
+  -webkit-box-shadow: inset -999px 0 0 $columnBackground;
+}
+
+.code { background: scale-lightness($columnBackground, -10%); border-radius: 4px; position: relative; }
+.niji_code { background: none; border: none; }
+
+.niji_code:before { width: 71px; height: 25px; content: ""; display: block; position: absolute; bottom: 5px; right: -9px; }
+
+.niji_html:before { background: url(../images/tag-html.png) no-repeat bottom right; }
+.niji_javascript:before { background: url(../images/tag-js.png) no-repeat bottom right; }
+.niji_text:before { background: url(../images/tag-txt.png) no-repeat bottom right; }
+
+.example {
+  @extend .row;
+  & > * { @extend [class*="span"]; @extend .span5; }
+
+  margin-top: 9px; margin-bottom: 9px;
+
+  @media (min-width: 768px) {
+    & {
+      display: table;
+      & > * { float: none; display: table-cell; left: 19px; }
+      & > *:nth-child(n+2) { left: 39px; }
+
+      margin-bottom: 9px; margin-top: 9px;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    & {
+      & > * { float: none; display: table-cell; left: 29px; }
+      & > *:nth-child(n+2) { left: 59px; }
+    }
+  }
+}
+
+@import "homepage";
+

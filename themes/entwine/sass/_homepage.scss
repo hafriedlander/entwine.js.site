@@ -1,0 +1,28 @@
+.block {
+  margin: 17px 0;
+  padding: 5px;
+
+  background: scale-lightness($columnBackground, -3%);
+
+  border: 1px solid $grayLight;
+  @include border-radius(4px);
+
+  ul {
+    border: 1px solid $grayLight; border-left: 0; border-right: 0;
+    margin: 5px 0; padding: 5px 0;
+
+    li {
+      overflow: hidden;
+      margin: 5px 0;
+
+      &:nth-child(2n) { background: scale-lightness($columnBackground, -6%); }
+
+      > a { display: block; float: left; width: 70%; }
+      div { float: left; width: 30%; text-align: right; }
+      p { clear: left; margin: 0; }
+    }
+  }
+
+  &#twitter-posts li > a { font-weight: bold; }
+
+}

@@ -1,0 +1,18 @@
+
+@import "variables"; // Modify this for custom colors, font-sizes, etc
+
+body { background: #aaa; }
+
+.swatch {
+  float: left; width: 64px; height: 64px; margin-right: 8px;
+
+  &.g0 { background: $black; }
+  &.g1 { background: $grayDarker; }
+  &.g2 { background: $grayDark; }
+  &.g3 { background: $gray; }
+  &.g4 { background: $grayLight; }
+  &.g5 { background: $grayLighter; }
+  &.g6 { background: $white; clear: right; }
+
+
+}
